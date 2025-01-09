@@ -86,7 +86,7 @@
 ## Getting Started
 #### 1. Clone the repository and navigate to the directory
 ```shell
-git https://github.com/sandyblade/symfony-online-store.git
+git clone https://github.com/sandyblade/symfony-online-store.git
 cd symfony-online-store
 ```
 
