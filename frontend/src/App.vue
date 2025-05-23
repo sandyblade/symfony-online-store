@@ -4,15 +4,37 @@
     import LoaderJSON from './animations/loader.json'
     import AppComponent from './components/AppComponent.vue'
     import { ref, onMounted } from 'vue'
+    import service from './services'
     
     const loading = ref(true)
     const connected = ref(false)
+   
     
     onMounted(() => {
-        setTimeout(() => {
+      service.ping().then(() => { 
+        setTimeout(async () => { 
+          if (localStorage.getItem('auth_token')) {
+            await service.profile.detail().then(() => { 
+              loading.value = false
+              connected.value = true       
+            })
+            .catch(() => {
+              localStorage.removeItem('auth_token')
+              localStorage.removeItem('auth_user')
+              loading.value = false
+              connected.value = true  
+            })
+          } else {
             loading.value = false
-            connected.value = true
+            connected.value = true            
+          }
         }, 3000)
+      })
+      .catch((error) => {
+        console.log(error)
+        loading.value = false
+        connected.value = false
+      });
     })
     
 </script>
